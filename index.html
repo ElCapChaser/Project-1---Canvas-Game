@@ -2,13 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Bubble game</title>
-    <link rel="stylesheet" href="styles.css" />
-
+    <meta name="viewport" content="width=device-width" />
+    <title>repl.it</title>
+    <link href="styles.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <button>New game</button>
-    <canvas width="600" height="400"></canvas>
+    <div>
+      <button>New game</button>
+      <div>
+        <button>Easy mode</button>
+        <button>Hard mode</button>
+      </div>
+    </div>
+    <canvas width="500" height="500"></canvas>
+    <script src="Game.js"></script>
+    <script src="IncomingBubble.js"></script>
+    <script src="Player.js"></script>
+    <script src="ShotBubble.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
