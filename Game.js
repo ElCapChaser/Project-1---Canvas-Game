@@ -6,14 +6,15 @@ class Game {
       new IncomingBubble(0, 0),
       new IncomingBubble(50, 0),
       new IncomingBubble(150, 0),
-      new IncomingBubble(150, 50)
+      new IncomingBubble(150, 50),
     ];
+    this.highSpeedBubbles = [];
     this.lastBubbleTime = 0;
-    this.shotBubbles = [new ShotBubble()];
+    this.shotBubbles = [];
     this.colorOptions = ['red', 'yellow', 'green', 'purple'];
     this.colorOptionsIndex = 0;
     this.clearScreenCounter = 0;
-    this.inventory = new Inventory();
+    this.score = new ScoreBoard();
   }
 
   //adding the event listeners once the game is intiated.
@@ -25,7 +26,7 @@ class Game {
       let dist = Math.sqrt(vx * vx + vy * vy);
       let dx = vx / dist;
       let dy = vy / dist;
-     // console.log(this.colorOptionsIndex)
+      // console.log(this.colorOptionsIndex)
       this.shootBubble(dx, dy, this.colorOptions, this.colorOptionsIndex);
     });
 
@@ -37,29 +38,6 @@ class Game {
         this.colorOptionsIndex = 0;
       }
     });
-
-    //select bullet color
-    // window.addEventListener('scroll', (event) => {
-    //   event.preventDefault();
-    //   let colorOptionsIndex = this.colorOptions[0];
-    // //   console.log(event);
-    // // });
-    // canvasElement.addEventListener('wheel', checkScrollDirection);
-    // function checkScrollDirection(event) {
-    //   event.preventDefault()
-    //   if (checkScrollDirectionIsUp(event)) {
-    //     console.log(this.colorOptionsIndex);
-
-    //   } else {
-    //     console.log('Down');
-    //   }
-    // }
-    // function checkScrollDirectionIsUp(event) {
-    //   if (event.wheelDelta) {
-    //     return event.wheelDelta > 0;
-    //   }
-    //   return event.deltaY < 0;
-    // }
 
     //move player around on the screen and super clearer
     window.addEventListener('keydown', (event) => {
@@ -90,6 +68,14 @@ class Game {
     }
   }
 
+  addHighSpeedBubble() {
+    if(Math.random() < 0.01) {
+      this.highSpeedBubbles.push(
+        new HighSpeedBubble(Math.random() * (canvasElement.width - 50), 0, Math.random()*50)
+      )
+    }
+  }
+
   checkHit() {
     // check for collision bullet & incoming bubbles
     for (let incomingBubble of this.incomingBubbles) {
@@ -111,15 +97,6 @@ class Game {
           this.shotBubbles.splice(indexShotBubble, 1);
           this.incomingBubbles.splice(indexIncomingBubble, 1);
         }
-
-        //remove bullet once above top canvas
-        else if (shotBubble.y < 0) {
-          const indexIncomingBubble = this.incomingBubbles.indexOf(
-            incomingBubble
-          );
-          const indexShotBubble = this.shotBubbles.indexOf(shotBubble);
-          this.shotBubbles.splice(indexShotBubble, 1);
-        }
       }
     }
   }
@@ -127,15 +104,39 @@ class Game {
   shootBubble(dx, dy) {
     const x = this.player.x + this.player.width / 2 - 2.5;
     const y = this.player.y;
-    const bulletColor = this.colorOptions[this.colorOptionsIndex]
-    console.log(bulletColor)
+    const bulletColor = this.colorOptions[this.colorOptionsIndex];
+    console.log(bulletColor);
     const shotBubble = new ShotBubble(x, y, dx, dy, bulletColor);
     this.shotBubbles.push(shotBubble);
   }
 
-  collectGarbage() {}
+  collectGarbage() {
+    //remove bubble once below player and above inventory
+    for (let bubble of this.incomingBubbles) {
+      if (bubble.y + bubble.height > heightExcludingInventory) {
+        this.incomingBubbles.splice(this.incomingBubbles.indexOf(bubble), 1);
+      }
+    }
+    //remove bullet once above top canvas
+    for (let shotBubble of this.shotBubbles) {
+      if (shotBubble.y < 0) {
+        const indexShotBubble = this.shotBubbles.indexOf(shotBubble);
+        this.shotBubbles.splice(indexShotBubble, 1);
+      }
+    }
+    //remove high speed
+    for (let bubble of this.highSpeedBubbles) {
+      if (bubble.y + bubble.height > heightExcludingInventory) { 
+        const indexBubble = this.highSpeedBubbles.indexOf(bubble);
+        this.highSpeedBubbles.splice(indexBubble, 1);
+        console.log(this.highSpeedBubbles.length)
+
+      }
+    }
+  }
 
   runLogic() {
+    this.score.runLogic();
     for (let shotBubble of this.shotBubbles) {
       shotBubble.runLogic();
     }
@@ -143,7 +144,12 @@ class Game {
     for (let incomingBubble of this.incomingBubbles) {
       incomingBubble.runLogic();
     }
+    this.addHighSpeedBubble();
+    for (let incomingBubble of this.highSpeedBubbles) {
+      incomingBubble.runLogic();
+    }
     this.checkHit();
+    this.collectGarbage();
   }
 
   draw() {
@@ -152,15 +158,15 @@ class Game {
     for (let bubble of this.incomingBubbles) {
       bubble.draw();
     }
+    for (let bubble of this.highSpeedBubbles) {
+      bubble.draw();
+    }
     for (let shotBubble of this.shotBubbles) {
       shotBubble.draw();
     }
-    context.fillStyle = this.colorOptions[this.colorOptionsIndex]
-    context.fillRect(
-      50,
-      450,
-      50,
-      50)
+    context.fillStyle = this.colorOptions[this.colorOptionsIndex];
+    context.fillRect(160, 455, 25, 25);
+    this.score.draw();
   }
 
   loop() {
