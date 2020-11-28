@@ -22,12 +22,11 @@ class Game {
     canvasElement.addEventListener('click', (event) => {
       let vx = event.offsetX - (this.player.x + this.player.width / 2 - 2.5);
       let vy = event.offsetY - this.player.y;
-      console.log(vx, vy);
       let dist = Math.sqrt(vx * vx + vy * vy);
       let dx = vx / dist;
       let dy = vy / dist;
-      console.log(dx, dy);
-      this.shootBubble(dx, dy);
+     // console.log(this.colorOptionsIndex)
+      this.shootBubble(dx, dy, this.colorOptions, this.colorOptionsIndex);
     });
 
     canvasElement.addEventListener('contextmenu', (event) => {
@@ -127,7 +126,9 @@ class Game {
   shootBubble(dx, dy) {
     const x = this.player.x + this.player.width / 2 - 2.5;
     const y = this.player.y;
-    const shotBubble = new ShotBubble(x, y, dx, dy);
+    const bulletColor = this.colorOptions[this.colorOptionsIndex]
+    console.log(bulletColor)
+    const shotBubble = new ShotBubble(x, y, dx, dy, bulletColor);
     this.shotBubbles.push(shotBubble);
   }
 
@@ -153,6 +154,12 @@ class Game {
     for (let shotBubble of this.shotBubbles) {
       shotBubble.draw();
     }
+    context.fillStyle = this.colorOptions[this.colorOptionsIndex]
+    context.fillRect(
+      50,
+      450,
+      50,
+      50)
   }
 
   loop() {
