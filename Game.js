@@ -97,6 +97,7 @@ class Game {
         //remove bullets if HIT AND bullet and bubble same color
         if (
           shotBubble.y <= incomingBubble.y + incomingBubble.height &&
+          shotBubble.y >= incomingBubble.y &&
           shotBubble.x >= incomingBubble.x &&
           shotBubble.x <= incomingBubble.x + incomingBubble.width &&
           shotBubble.color === incomingBubble.color
