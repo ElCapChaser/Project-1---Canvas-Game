@@ -8,7 +8,11 @@ class Game {
       new IncomingBubble(150, 0),
       new IncomingBubble(150, 50)
     ];
-    this.shotBubbles = [];
+    this.lastBubbleTime = 0;
+    this.shotBubbles = [
+      new ShotBubble()
+    ];
+    this.inventory = new Inventory();
   }
 
   //adding the event listeners once the game is intiated.
@@ -39,7 +43,11 @@ class Game {
   }
 
   addBubble() {
-    //conditional check still to happen.
+    const currentTime = Date.now();
+      if (currentTime > this.lastBubbleTime + 2000) {
+        this.incomingBubbles.push(new IncomingBubble(Math.random() * (canvasElement.width-50), 0));
+        this.lastBubbleTime = currentTime;
+      }
   }
 
   checkHit() {
@@ -85,6 +93,10 @@ class Game {
   runLogic() {
     for (let shotBubble of this.shotBubbles) {
       shotBubble.runLogic();
+    }
+    this.addBubble();
+    for (let incomingBubble of this.incomingBubbles) {
+      incomingBubble.runLogic()
     }
     this.checkHit();
   }

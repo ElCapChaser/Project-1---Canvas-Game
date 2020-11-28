@@ -19,8 +19,6 @@ class IncomingBubble {
     }
   
     runLogic() {
-      //walking the bubbles closer to the player
-      //to fix that this is conditional. Only run if...
-      //this.y +=0.5;
+      this.y +=0.5;
     }
   }
