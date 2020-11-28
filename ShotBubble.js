@@ -2,7 +2,7 @@ class ShotBubble {
     constructor(x, y, dx, dy) {
       this.x = x;
       this.y = y;
-      this.color = [`yellow`, `green`, `red`] [Math.floor(Math.random() * 3)]
+      this.color = [`yellow`, `green`, `red`, 'purple'] [Math.floor(Math.random() * 4)];
       this.speedX = dx;
       this.speedY = dy;
       this.width = 5;

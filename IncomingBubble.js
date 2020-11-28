@@ -5,7 +5,8 @@ class IncomingBubble {
       this.y = y;
       this.width = 25
       this.height = 25
-      this.color = [`yellow`, `green`, `red`] [Math.floor(Math.random() * 3)]
+      this.color = [`yellow`, `green`, `red`, 'purple'] [Math.floor(Math.random() * 4)]
+      this.speed = Math.random()
     }
   
     draw () {
@@ -19,6 +20,6 @@ class IncomingBubble {
     }
   
     runLogic() {
-      this.y +=0.5;
+      this.y +=0.5 * this.speed*4;
     }
   }

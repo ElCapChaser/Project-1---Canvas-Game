@@ -22,3 +22,8 @@ button {
   margin: 2em;
   border: 2px solid white;
 }
+
+section {
+  color: white;
+  margin: 50px;
+}

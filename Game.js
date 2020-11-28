@@ -9,9 +9,10 @@ class Game {
       new IncomingBubble(150, 50)
     ];
     this.lastBubbleTime = 0;
-    this.shotBubbles = [
-      new ShotBubble()
-    ];
+    this.shotBubbles = [new ShotBubble()];
+    this.colorOptions = ['red', 'yellow', 'green', 'purple'];
+    this.colorOptionsIndex = 0;
+    this.clearScreenCounter = 0;
     this.inventory = new Inventory();
   }
 
@@ -19,7 +20,7 @@ class Game {
   setKeyBindings() {
     //shooting the bullet with mouseclick
     canvasElement.addEventListener('click', (event) => {
-      let vx = event.offsetX - (this.player.x + this.player.width/2-2.5);
+      let vx = event.offsetX - (this.player.x + this.player.width / 2 - 2.5);
       let vy = event.offsetY - this.player.y;
       console.log(vx, vy);
       let dist = Math.sqrt(vx * vx + vy * vy);
@@ -29,8 +30,41 @@ class Game {
       this.shootBubble(dx, dy);
     });
 
-    //move player around on the screen
+    canvasElement.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      let addValue = 1;
+      this.colorOptionsIndex += addValue;
+      if (this.colorOptionsIndex >= 4) {
+        this.colorOptionsIndex = 0;
+      }
+    });
+
+    //select bullet color
+    // window.addEventListener('scroll', (event) => {
+    //   event.preventDefault();
+    //   let colorOptionsIndex = this.colorOptions[0];
+    // //   console.log(event);
+    // // });
+    // canvasElement.addEventListener('wheel', checkScrollDirection);
+    // function checkScrollDirection(event) {
+    //   event.preventDefault()
+    //   if (checkScrollDirectionIsUp(event)) {
+    //     console.log(this.colorOptionsIndex);
+
+    //   } else {
+    //     console.log('Down');
+    //   }
+    // }
+    // function checkScrollDirectionIsUp(event) {
+    //   if (event.wheelDelta) {
+    //     return event.wheelDelta > 0;
+    //   }
+    //   return event.deltaY < 0;
+    // }
+
+    //move player around on the screen and super clearer
     window.addEventListener('keydown', (event) => {
+      event.preventDefault();
       switch (event.key) {
         case 'ArrowLeft':
           this.player.x -= 10;
@@ -38,16 +72,23 @@ class Game {
         case 'ArrowRight':
           this.player.x += 10;
           break;
+        case ' ':
+          if (this.clearScreenCounter <= 3) {
+            this.incomingBubbles = [];
+            this.clearScreenCounter += 1;
+          }
       }
     });
   }
 
   addBubble() {
     const currentTime = Date.now();
-      if (currentTime > this.lastBubbleTime + 2000) {
-        this.incomingBubbles.push(new IncomingBubble(Math.random() * (canvasElement.width-50), 0));
-        this.lastBubbleTime = currentTime;
-      }
+    if (currentTime > this.lastBubbleTime + 2000) {
+      this.incomingBubbles.push(
+        new IncomingBubble(Math.random() * (canvasElement.width - 50), 0)
+      );
+      this.lastBubbleTime = currentTime;
+    }
   }
 
   checkHit() {
@@ -84,11 +125,13 @@ class Game {
   }
 
   shootBubble(dx, dy) {
-    const x = this.player.x + this.player.width/2-2.5;
+    const x = this.player.x + this.player.width / 2 - 2.5;
     const y = this.player.y;
     const shotBubble = new ShotBubble(x, y, dx, dy);
     this.shotBubbles.push(shotBubble);
   }
+
+  collectGarbage() {}
 
   runLogic() {
     for (let shotBubble of this.shotBubbles) {
@@ -96,7 +139,7 @@ class Game {
     }
     this.addBubble();
     for (let incomingBubble of this.incomingBubbles) {
-      incomingBubble.runLogic()
+      incomingBubble.runLogic();
     }
     this.checkHit();
   }
