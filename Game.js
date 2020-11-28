@@ -13,18 +13,19 @@ class Game {
 
   //adding the event listeners once the game is intiated.
   setKeyBindings() {
+    //shooting the bullet with mouseclick
     canvasElement.addEventListener('click', (event) => {
-      let vx = event.offsetX - this.player.x;
+      let vx = event.offsetX - (this.player.x + this.player.width/2-2.5);
       let vy = event.offsetY - this.player.y;
       console.log(vx, vy);
       let dist = Math.sqrt(vx * vx + vy * vy);
       let dx = vx / dist;
       let dy = vy / dist;
       console.log(dx, dy);
-      //console.log('piew piew ' +  event.offsetX, event.offsetY)
       this.shootBubble(dx, dy);
     });
 
+    //move player around on the screen
     window.addEventListener('keydown', (event) => {
       switch (event.key) {
         case 'ArrowLeft':
@@ -75,7 +76,7 @@ class Game {
   }
 
   shootBubble(dx, dy) {
-    const x = this.player.x;
+    const x = this.player.x + this.player.width/2-2.5;
     const y = this.player.y;
     const shotBubble = new ShotBubble(x, y, dx, dy);
     this.shotBubbles.push(shotBubble);

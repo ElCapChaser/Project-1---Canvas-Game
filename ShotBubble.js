@@ -5,6 +5,7 @@ class ShotBubble {
       this.color = [`yellow`, `green`, `red`] [Math.floor(Math.random() * 3)]
       this.speedX = dx;
       this.speedY = dy;
+      this.width = 5;
     }
   
     runLogic() {
@@ -18,7 +19,7 @@ class ShotBubble {
       context.fillRect(
         this.x,
         this.y,
-        5,
+        this.width,
         5
       )
     }
