@@ -3,10 +3,19 @@ class ScoreBoard {
     constructor () {
         this.starttime = new Date()
         this.elapsedTime = 0;
+        this.lostTimeBubble = 0;
+        this.LostTimeBullet = 0;
     }
 
     runLogic () {
-        this.elapsedTime = Math.round((new Date() - this.starttime) / 1000)
+        this.elapsedTime = Math.round((new Date() - this.starttime) / 1000 - (this.lostTimeBubble + this.LostTimeBullet))
+        if(this.elapsedTime < 0) {
+            this.youLose()
+        }
+    }
+
+    youLose() {
+        console.log('GAME OVER ')
     }
 
     draw () {
