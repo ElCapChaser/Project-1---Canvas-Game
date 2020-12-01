@@ -9,7 +9,7 @@ class Game {
     this.colorOptions = ['red', 'yellow', 'green', 'purple'];
     this.colorOptionsIndex = 0;
     this.clearScreenCounter = 0;
-    this.score = new ScoreBoard();
+    this.score = new ScoreBoard(0);
   }
 
   //adding the event listeners once the game is intiated.
@@ -204,8 +204,13 @@ class Game {
   loop() {
     this.runLogic();
     this.draw();
-    setTimeout(() => {
-      this.loop();
-    }, 1000 / 30);
+    if (this.score.active) {
+      setTimeout(() => {
+        this.loop();
+      }, 1000 / 30);
+    } else {
+      screenPlayElement.style.display = 'none'
+      screenGameOverElement.style.display = 'initial'
+    }
   }
 }

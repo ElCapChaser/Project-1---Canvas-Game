@@ -7,12 +7,8 @@
     <link href="styles.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div>
-      <button>New game</button>
-      <div>
-        <button>Easy mode</button>
-        <button>Hard mode</button>
-      </div>
+    <section id="screen-start">
+      <button id="trigger-start">Start game</button>
       <section>
         <h3>Instructions</h3>
         <ul>
@@ -22,8 +18,24 @@
           <li>Use space to kill all enemies - careful, limited use!</li>
         </ul>
       </section>
-    </div>
-    <canvas width="500" height="500"></canvas>
+    </section>
+    <section id="screen-game-over" style="display: none;">
+      <h1>Oh no... you lost! You survived: seconds</h1>
+      <button id="trigger-restart">Restart new game</button>
+    </section>
+    <section id="screen-playing"  style="display: none;">
+      <section>
+        <h3>Instructions</h3>
+        <ul>
+          <li>Shoot the bubble with the right color bullet</li>
+          <li>Left mouse to shoot</li>
+          <li>Right click to change bullet color</li>
+          <li>Use space to kill all enemies - careful, limited use!</li>
+        </ul>
+      </section>
+      <canvas width="500" height="500"></canvas>
+    </section>
+
     <script src="Game.js"></script>
     <script src="ScoreBoard.js"></script>
     <script src="IncomingBubble.js"></script>
