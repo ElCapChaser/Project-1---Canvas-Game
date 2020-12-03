@@ -199,6 +199,7 @@ class Game {
     context.fillStyle = this.colorOptions[this.colorOptionsIndex];
     context.fillRect(160, 455, 25, 25);
     this.score.draw();
+    context.fillText('Kill all left: ' + (3-this.clearScreenCounter) + ' / 3', 40, 475);
   }
 
   loop() {
@@ -211,6 +212,7 @@ class Game {
     } else {
       screenPlayElement.style.display = 'none'
       screenGameOverElement.style.display = 'initial'
+      document.getElementById('final-score').innerHTML = 'Oh no... you lost! You survived: ' + this.score.totalSecondSurvived + ' seconds'
     }
   }
 }

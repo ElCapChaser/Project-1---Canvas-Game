@@ -1,5 +1,6 @@
+
 body {
-  background-color: blue;
+  background-color: rgb(3, 148, 181);
   margin: 0;
   height: 100vh;
   display: flex;
@@ -7,23 +8,47 @@ body {
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
+} 
+
+h1 {
+  display:flex;
+  justify-content: flex-start;
 }
 
 canvas {
   border: 4px solid white;
   background-color: darkgray;
-
 }
 
 button {
   border: 0;
   font: inherit;
-  padding: 1em;
-  margin: 2em;
+  padding: .7em;
+  margin: 150px 0 0 0;
   border: 2px solid white;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  margin: 10px 0;
 }
 
 section {
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center ;
   margin: 50px;
+}
+
+#screen-game-over button{
+  border: 0;
+  font: inherit;
+  padding: .7em;
+  margin: 0 0 0 150px;
+  border: 2px solid white;
+
 }

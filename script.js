@@ -15,14 +15,13 @@ const screenPlayElement = document.getElementById('screen-playing')
 
 
 
-
-
 triggerStartElement.addEventListener('click', () => {
     const game = new Game();
     screenStartElement.style.display = 'none';
     screenPlayElement.style.display = 'initial'
     game.loop();    
 })
+
 
 
 triggerRestartElement.addEventListener('click', () => {  

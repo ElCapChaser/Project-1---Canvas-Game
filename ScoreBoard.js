@@ -26,5 +26,6 @@ class ScoreBoard {
     context.fillStyle = 'black';
     context.font = '14px san-serif';
     context.fillText('Health percentage: ' + this.elapsedTime + ' %', 350, 475);
+    context.fillText('Time in game: ' + this.totalSecondSurvived, 350, 492);
   }
 }
