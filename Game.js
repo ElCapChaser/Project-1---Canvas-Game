@@ -62,10 +62,15 @@ class Game {
       }
     });
   }
+  generateRandom() {
+    let min = Math.ceil(min);
+    let max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive 
+  }
 
   addBubble() {
     const currentTime = Date.now();
-    if (currentTime > this.lastBubbleTime + 2000) {
+    if (currentTime > this.lastBubbleTime + 1500) {
       this.incomingBubbles.push(
         new IncomingBubble(Math.random() * (canvasElement.width - 50), 0)
       );
@@ -79,7 +84,7 @@ class Game {
         new HighSpeedBubble(
           Math.random() * (canvasElement.width - 50),
           0,
-          Math.random() * 50
+          Math.random() * 40
         )
       );
     }
@@ -137,7 +142,7 @@ class Game {
           this.incomingBubbles.indexOf(incomingBubble),
           1
         );
-        hitSound.play()
+        asteroidHitSound.play()
       }
     }
   }
