@@ -1,3 +1,7 @@
+const hitSound = new Audio('sounds/391658__jeckkech__collision.wav')
+const asteroidHitSound = new Audio('sounds/Explosion+1.wav')
+const destroyAll = new Audio('sounds/331156__robinhood76__06167-magnetic-destroy-shot.wav')
+
 class Game {
   constructor() {
     this.player = new Player();
@@ -50,6 +54,7 @@ class Game {
           break;
         case ' ':
           if (this.clearScreenCounter < 3) {
+            destroyAll.play()
             this.incomingBubbles = [];
             this.highSpeedBubbles = [];
             this.clearScreenCounter += 1;
@@ -100,6 +105,8 @@ class Game {
           //remove incoming bubbles and shot bullets from screen
           this.shotBubbles.splice(indexShotBubble, 1);
           this.incomingBubbles.splice(indexIncomingBubble, 1);
+          hitSound.play()
+
         }
       }
     }
@@ -112,6 +119,7 @@ class Game {
         this.player.x < highSpeed.x + highSpeed.width &&
         this.player.y < highSpeed.y + highSpeed.height
       ) {
+        asteroidHitSound.play()
         this.score.youLose();
       }
     }
@@ -129,6 +137,7 @@ class Game {
           this.incomingBubbles.indexOf(incomingBubble),
           1
         );
+        hitSound.play()
       }
     }
   }
